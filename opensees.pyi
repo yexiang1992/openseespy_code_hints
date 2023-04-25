@@ -8,6 +8,7 @@ def model(*args) -> None:
     """``model('basic', '-ndm', ndm, '-ndf', ndf)``
     
     Set the default model dimensions and number of dofs.
+    See https://openseespydoc.readthedocs.io/en/latest/src/model.html
 
     * ndm (int)  :   number of dimensions (1,2,3)
     * ndf (int)  :   number of dofs (optional)
@@ -18,6 +19,7 @@ def node(*args) -> None:
     ``node(nodeTag, *crds, '-ndf', ndf, '-mass', *mass, '-disp', *disp, '-vel', *vel, '-accel', *accel)``
 
     Create a OpenSees node.
+    See https://openseespydoc.readthedocs.io/en/latest/src/node.html
 
     * nodeTag (int)  :   node tag.
     * crds (list (float))  :   nodal coordinates.
@@ -43,6 +45,8 @@ def region(*args) -> None:
     startEle, endEle, '-node', *nodes, '-nodeOnly', *nodes, '-nodeRange', startNode, endNode, '-nodeOnlyRange', 
     startNode, endNode, '-rayleigh', alphaM, betaK, betaKinit, betaKcomm)``
     
+    See https://openseespydoc.readthedocs.io/en/latest/src/region.html
+    
     The region command is used to label a group of nodes and elements.
     This command is also used to assign rayleigh damping parameters to the nodes and elements in this region.
     The region is specified by either elements or nodes, not both.
@@ -51,7 +55,6 @@ def region(*args) -> None:
     If nodes are specified, the region includes these nodes and all elements of which
     all nodes are prescribed to be in the region, unless the -nodeOnly option is used
     in which case only the nodes are included.
-    See https://openseespydoc.readthedocs.io/en/latest/src/region.html
 
     * regTag (int) : unique integer tag
     * eles (list (int)) : tags of selected elements in domain to be included in region (optional)
@@ -106,10 +109,11 @@ def block3D(*args) -> None:
 def beamIntegration(*args) -> None:
     """``beamIntegration(type, tag, *args)``
     
+    See https://openseespydoc.readthedocs.io/en/latest/src/beamIntegration.html
+    
     A wide range of numerical integration options are available in OpenSees
     to represent distributed plasticity or non-prismatic section details in Beam-Column Elements,
     i.e., across the entire element domain [0, L].
-    See https://openseespydoc.readthedocs.io/en/latest/src/beamIntegration.html
 
     Integration Methods for Distributed Plasticity. 
     Distributed plasticity methods permit yielding at any integration point along the element length.
@@ -1248,17 +1252,17 @@ def getStrain() -> float:
     """
     pass
 
-def getStress() -> float::
+def getStress() -> float:
     """
     """
     pass
 
-def getTangent() -> float::
+def getTangent() -> float:
     """
     """
     pass
 
-def getDampTangent() -> float::
+def getDampTangent() -> float:
     """
     """
     pass
@@ -1306,6 +1310,19 @@ def updateElementDomain() -> None:
     """
     pass
 
+def updateMaterialStage(*args) -> None:
+    """``updateMaterialStage('-material', matTag, '-stage', value, <'-parameter', paramTag>)``
+    
+    This function is used in geotechnical modeling to maintain elastic nDMaterial response during the application of gravity loads.
+    The material is then updated to allow for plastic strains during additional static loads or earthquakes.
+    See https://openseespydoc.readthedocs.io/en/latest/src/updateMaterialStage.html
+
+    * matTag (int) : tag of nDMaterial.
+    * value (int) : stage value.
+    *paramTag (int) : tag of parameter (optional).
+    """
+    pass
+
 def getNDM(*args) -> int:
     """``getNDM(<nodeTag>)``
     
@@ -1326,16 +1343,6 @@ def eleType(eleTag: int) -> str:
     pass
 
 def getCrdTransfTags() -> list:
-    """
-    """
-    pass
-
-def getParamTags() -> list:
-    """
-    """
-    pass
-    
-def getParamValue(paramTag: int) -> float:
     """
     """
     pass
@@ -1391,7 +1398,8 @@ def getNodeLoadData(*args) -> list:
 def loadConst(*args) -> None:
     """``loadConst('-time', pseudoTime)``
     
-    This command is used to set the loads constant in the domain and to also set the time in the domain. When setting the loads constant, the procedure will invoke setLoadConst() on all LoadPattern objects which exist in the domain at the time the command is called.
+    This command is used to set the loads constant in the domain and to also set the time in the domain. When setting the loads constant,
+    the procedure will invoke setLoadConst() on all LoadPattern objects which exist in the domain at the time the command is called.
 
     pseudoTime (float) : Time domain is to be set to (optional)
     
@@ -1457,26 +1465,179 @@ def sdfResponse(*args) -> list:
     
     Args
     -----
-    * m (float)	mass
-    * zeta (float)	damping ratio
-    * k (float)	stiffness
-    * Fy (float)	yielding strength
-    * alpha (float)	strain-hardening ratio
-    * dtF (float)	time step for input data
-    * filename (str)	input data file, one force per line
-    * dt (float)	time step for analysis
-    * uresidual (float)	residual displacement at the end of previous analysis (optional, default=0)
-    * umaxprev (float)	previous displacement (optional, default=0),
+    * m (float) : mass
+    * zeta (float) : damping ratio
+    * k (float) : stiffness
+    * Fy (float) : yielding strength
+    * alpha (float) : strain-hardening ratio
+    * dtF (float) : time step for input data
+    * filename (str) : input data file, one force per line
+    * dt (float) : time step for analysis
+    * uresidual (float) : residual displacement at the end of previous analysis (optional, default=0)
+    * umaxprev (float) : previous displacement (optional, default=0),
     
     The command returns a list of five response quantities.
 
     Returns
     -----------
-    * umax (float)	maximum displacement during analysis
-    * u (float)	displacement at end of analysis
-    * up (float)	permanent residual displacement at end of analysis
-    * amax (float)	maximum acceleration during analysis
-    * tamax (float)	time when maximum accleration occurred
+    * umax (float) : maximum displacement during analysis
+    * u (float) : displacement at end of analysis
+    * up (float) : permanent residual displacement at end of analysis
+    * amax (float) : maximum acceleration during analysis
+    * tamax (float) : time when maximum accleration occurred
+    """
+    pass
+
+def database(type: str, dbName: str) -> None:
+    """Create a database.
+
+    * type (str) : database type:
+    
+        'File' - outputs database into a file;
+        
+        'MySQL' - creates a SQL database;
+        
+        'BerkeleyDB' - creates a BerkeleyDB database.
+        
+    * dbName (str) : database name.
+    """
+    pass
+
+def restore(commitTag: int) -> None:
+    """Restore data from database, which should be created through database().
+
+    * commitTag (int) : a tag identify the commit
+    """
+    pass
+
+def save(commitTag: int) -> None:
+    """Save current state to database, which should be created through database().
+
+    * commitTag (int) : a tag identify the commit
+    """
+    pass
+
+def InitialStateAnalysis(flag: str) -> None:
+    """Set the initial state analysis to 'on' or 'off'
+
+    * flag (str) : 'on' or 'off'.
+    """
+    pass
+
+def setTime(pseudoTime: float) -> None:
+    """This command is used to set the time in the Domain.
+
+    * pseudoTime (float) : Time domain to be set.
+    """
+    pass
+
+def setNodeCoord(nodeTag: int, dim: int, value: float) -> None:
+    """set the nodal coodinate at the specified dimension.
+
+    * nodeTag (int) : node tag.
+    * dim (int) : the dimension of the coordinate to be set.
+    * value (float) : coordinate value
+    """
+    pass
+
+def setNodeDisp(*args) -> None:
+    """``setNodeDisp(nodeTag, dof, value, <'-commit'>)``
+    
+    set the nodal displacement at the specified DOF.
+
+    * nodeTag (int) : node tag.
+    * dof (int) : the DOF of the displacement to be set.
+    * value (float) : displacement value
+    * '-commit' (str) : commit nodal state. (optional)
+    """
+    pass
+
+def setNodeVel(*args) -> None:
+    """``setNodeVel(nodeTag, dof, value, <'-commit'>)``
+    
+    set the nodal velocity at the specified DOF.
+
+    * nodeTag (int) : node tag.
+    * dof (int) : the DOF of the velocity to be set.
+    * value (float) : velocity value
+    * '-commit' (str) : commit nodal state. (optional)
+    """
+    pass
+
+def setNodeAccel(*args) -> None:
+    """``setNodeAccel(nodeTag, dof, value, <'-commit'>)``
+    
+    set the nodal acceleration at the specified DOF.
+
+    * nodeTag (int) : node tag.
+    * dof (int) : the DOF of the acceleration to be set.
+    * value (float) : acceleration value
+    * '-commit' (str) : commit nodal state. (optional)
+    """
+    pass
+
+def setPrecision(precision: int) -> None:
+    """Set the precision for screen output.
+
+    * precision (int) : the precision number.
+    """
+    pass
+
+def setElementRayleighDampingFactors(eleTag: int, alphaM: float, betaK: float, betaK0: float, betaKc: float) -> None:
+    """Set the rayleigh() damping for an element.
+
+    * eleTag (int) : element tag.
+    * alphaM (float) : factor applied to elements or nodes mass matrix
+    * betaK (float) : factor applied to elements current stiffness matrix.
+    * betaK0 (float) : factor applied to elements initial stiffness matrix.
+    * betaKc (float) : factor applied to elements committed stiffness matrix.
+    """
+    pass
+
+def start() -> None:
+    """Start the timer.
+    """
+    pass
+
+def stop() -> None:
+    """Stop the timer and print timing information.
+    """
+    pass
+
+def stripXML(inputml: str, outputdata: str, outputxml: str) -> None:
+    """Strip a xml file to a data file and a descriptive file.
+
+    * inputxml (str) : input xml file name.
+    * outputdata (str) : output data file name.
+    * outputxml (str) : output xml file name.
+    """
+    pass
+
+def setNumThreads(num: int) -> None:
+    """set the number of threads to be used in the multi-threaded environment.
+
+    * num (int) : number of threades
+    """
+    pass
+
+def getNumThreads() -> int:
+    """return the total number of threads available.
+    """
+    pass
+
+def convertBinaryToText(inputfile: str, outputfile: str) -> None:
+    """Convert binary file to text file.
+
+    * inputfile (str) : input file name.
+    * outputfile (str) : output file name.
+    """
+    pass
+
+def convertTextToBinary(inputfile: str, outputfile: str) -> None:
+    """Convert text file to binary file.
+
+    * inputfile (str) : input file name.
+    * outputfile (str) : output file name.
     """
     pass
 
@@ -1507,11 +1668,267 @@ def remesh(alpha: float = -1.0) -> None:
     """
     pass
 
+# ----------- Sensitivity Commands ---------------
+def parameter(tag:int, *args) -> None:
+    """``parameter(tag, <specific parameter args>)``
+    
+    See https://openseespydoc.readthedocs.io/en/latest/src/parameter.html
+    
+    In DDM-based FE response sensitivity analysis, the sensitivity parameters can be material, geometry or discrete loading parameters.
+
+    * tag (int) : integer tag identifying the parameter.
+    * <specific parameter args> : depend on the object in the FE model encapsulating the desired parameters.
+    
+    Note
+    -----
+    Each parameter must be unique in the FE domain, and all parameter tags must be numbered sequentially starting from 1.
+
+    Examples
+    ---------
+    To identify the elastic modulus, E, of the material 1 at section 3 of element 4, the <specific object arguments> string becomes:
+
+    ``parameter(1, 'element', 4, 'section', 3, 'material', 1, 'E')``
+    
+    To identify the elastic modulus, E, of elastic section 3 of element 4 (for elastic section,
+    no specific material need to be defined), the <specific object arguments> string becomes:
+
+    ``parameter(1, 'element', 4, 'section', 3, 'E')``
+    
+    To parameterize E for element 4 with material 1 (no section need to be defined), the <specific object arguments> string simplifies as:
+
+    ``parameter(1, 'element', 4, 'material', 1, 'E')``
+    
+    Note
+    ------
+    Notice that the format of the <specific object arguments> is different for each considered element/section/material.
+    The specific set of parameters and the relative <specific object arguments> format will be added in the future.
+    """
+    pass
+
+def addToParameter(tag:int, *args) -> None:
+    """``addToParameter(tag, <specific parameter args>)``
+    
+    In case that more objects (e.g., element, section) are mapped to an existing parameter,
+    the command can be used to relate these additional objects to the specific parameter.
+
+    * tag (int) : integer tag identifying the parameter.
+    * <specific parameter args> : depend on the object in the FE model encapsulating the desired parameters.
+    """
+    pass
+
+def updateParameter(tag: int, newValue: float) -> None:
+    """Once the parameters in FE model are defined, their value can be updated.
+    See https://openseespydoc.readthedocs.io/en/latest/src/updateParameter.html
+
+    * tag (int) : integer tag identifying the parameter.
+    * newValue (float) : the updated value to which the parameter needs to be set.
+    """
+    pass
+
+def setParameter(*args) -> None:
+    """``setParameter('-val', newValue, <'-ele', *eleTags>, <'-eleRange', start, end>, <*args>)``
+    
+    set value for an element parameter
+
+    * newValue (float) : the updated value to which the parameter needs to be set.
+    * eleTags (list (int)) : a list of element tags
+    * start (int) : start element tag
+    * end (int) : end element tag
+    * args (list (str)) : a list of strings for the element parameter
+    """
+    pass
+
+def getParamTags() -> list:
+    """Return a list of tags for all parameters.
+    """
+    pass
+    
+def getParamValue(paramTag: int) -> float:
+    """Return the value of a parameter.
+    
+    * paramTag (int) : integer tag identifying the parameter.
+    """
+    pass
+
+def computeGradients() -> None:
+    """This command is used to perform a sensitivity analysis.
+    If the user wants to call this command, then the ``'-computeByCommand'`` should be set in the ``sensitivityAlgorithm`` command.
+    """
+    pass
+
+def sensitivityAlgorithm(type: str) -> None:
+    """This command is used to create a sensitivity algorithm.
+
+    * type (str) : the type of the sensitivity algorithm,
+    
+    ``'-computeAtEachStep'`` automatically compute at the end of each step
+    
+    ``'-compuateByCommand'`` compute by calling computeGradients.
+    """
+    pass
+
+def sensNodeDisp(nodeTag: int, dof: int, paramTag: int) -> float:
+    """Returns the current displacement sensitivity to a parameter at a specified node.
+
+    * nodeTag (int) : node tag
+    * dof (int) : specific dof at the node (1 through ndf)
+    * paramTag (int) : parameter tag
+    """
+    pass
+
+def sensNodeVel(nodeTag: int, dof: int, paramTag: int) -> float:
+    """Returns the current velocity sensitivity to a parameter at a specified node.
+
+    * nodeTag (int) : node tag
+    * dof (int) : specific dof at the node (1 through ndf)
+    * paramTag (int) : parameter tag
+    """
+    pass
+
+def sensNodeAccel(nodeTag: int, dof: int, paramTag: int) -> float:
+    """Returns the current velocity acceleration to a parameter at a specified node.
+
+    * nodeTag (int) : node tag
+    * dof (int) : specific dof at the node (1 through ndf)
+    * paramTag (int) : parameter tag
+    """
+    pass
+
+def sensLambda(patternTag: int, paramTag: int) -> float:
+    """Returns the current load factor sensitivity to a parameter in a load pattern.
+
+    * patternTag (int) : load pattern tag
+    * paramTag (int) : parameter tag
+    """
+    pass
+
+def sensSectionForce(*args) -> float:
+    """``sensSectionForce(eleTag, <secNum>, dof, paramTag)``
+
+    Returns the current section force sensitivity to a parameter at a specified element and section.
+
+    * eleTag (int) : element tag
+    * secNum (int) : section number (optional)
+    * dof (int) : specific dof at the element (1 through element force ndf)
+    * paramTag (int) : parameter tag
+    """
+    pass
+
+def sensNodePressure(nodeTag: int, paramTag: int) -> float:
+    """Returns the current pressure sensitivity to a parameter at a specified node.
+
+    * nodeTag (int) : node tag
+    * paramTag (int) : parameter tag
+    """
+    pass
+
 # -------------Reliability Commands---------------
 def randomVariable(*args) -> None:
     """``randomVariable(tag, dist, '-mean', mean, '-stdv', stdv, '-startPoint', startPoint, '-parameters', *params)``
     
     Create a random variable with user specified distribution.
     See https://openseespydoc.readthedocs.io/en/latest/src/randomVariable.html
+    """
+    pass
+
+# -----------Parallel Commands--------------------
+def getPID() -> int:
+    """Get the processor ID of the calling processor.
+    """
+    pass
+
+def getNP() -> int:
+    """Get total number of processors.
+    """
+    pass
+
+def barrier() -> None:
+    """Set a barrier for all processors, i.e., faster processors will pause here to wait for all processors to reach to this point.
+    """
+    pass
+
+def send(*args) -> None:
+    """``send('-pid', pid, *data)``
+    
+    Send information to another processor.
+
+    * pid (int) : ID of processor where data is sent to
+    * data (list (int)) : can be a list of integers;
+    * data (list (float)) : can be a list of floats;
+    * data (str) : can be a string
+    
+    Note
+    -----
+    ``send`` command and ``recv`` command must match and the order of calling both commands matters.
+    """
+    pass
+
+def recv(*args) -> None:
+    """``recv('-pid', pid)``
+    
+    Receive information from another processor.
+
+    * pid (int) : ID of processor where data is received from
+    * pid (str) : if pid is 'ANY', the processor can receive data from any processor.
+    
+    Note
+    -----
+    ``send`` command and ``recv`` command must match and the order of calling both commands matters.
+    """
+    pass
+
+def Bcast(*data) -> None:
+    """Broadcast information from processor 0 to all processors.
+
+    * data (list (int)) : can be a list of integers
+    * data (list (float)) : can be a list of floats
+    * data (str) : can be a string
+    
+    Note
+    -----
+    Run the same command to receive data sent from pid = 0.
+
+    Example
+    ---------
+
+    >>> if pid == 0:
+    >>>     data1 = []
+    >>>     data2 = []
+    >>>     ops.Bcast(*data1)
+    >>>     ops.Bcast(*data2)
+    >>> if pid != 0:
+    >>>     data1 = ops.Bcast()
+    >>>     data2 = ops.Bcast()
+    """
+    pass
+
+def setStartNodeTag(ndtag: int) -> None:
+    """Set the starting node tag for the mesh command. The purpose of this command is to control
+    the node tags generated by the mesh command. Some nodes are shared by processors,
+    which must have same tags. Nodes which are unique to a processor must have uniques tags across all processors.
+
+    * ndtag (int) : starting node tag for the next call of mesh command.
+    """
+    pass
+
+def domainChange() -> None:
+    """Mark the domain has changed manually.
+    This is used to notify processors whose domain is not changed, but the domain in other processors have changed.
+    """
+    pass
+
+def partition(*args) -> None:
+    """``partition('-ncuts', ncuts, '-niter', niters, '-ufactor', ufactor, '-info')``
+    
+    In a parallel environment, this command partitions the model.
+    It requires that all processors have the exact same model to be partitioned.
+
+    * ncuts (int) : Specifies the number of different partitionings that it will compute.
+        The final partitioning is the one that achieves the best edge cut or communication volume. (Optional default is 1).
+    * niters (int) : Specifies the number of iterations for the refinement algorithms at
+        each stage of the uncoarsening process. (Optional default is 10).
+    * ufactor (int) : Specifies the maximum allowed load imbalance among the partitions.
+        (Optional default is 30, indicating a load imbalance of 1.03).
+    * '-info' (str) : print information. (optional)
     """
     pass
