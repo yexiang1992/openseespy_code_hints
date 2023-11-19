@@ -1336,7 +1336,7 @@ def getNDM(*args) -> list:
     """
     pass
 
-def getNDF() -> list:
+def getNDF(*args) -> list:
     """``getNDM(<nodeTag>)``
 
     * nodeTag: int, optional.
